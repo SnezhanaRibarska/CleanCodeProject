@@ -2,42 +2,16 @@ package com.webproject.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.webproject.models.User;
-import com.webproject.repositories.UserRepository;
 
-@Service
-public class UserService {
+public interface UserService {
 
-	@Autowired
-    private UserRepository userRepository;
+	List<User> findAll();
 	
-	public List<User> findAll() {
-        return userRepository.findAll();
-    }
+	User validateUser(User user);
 	
-	public User validateUser(User u) {
-		List<User> users = findAll();
-		for (User user : users) {
-			if(user.getUserName().equalsIgnoreCase(u.getUserName()) && 
-					user.getPassword().equals(u.getPassword())) {
-				return user;
-			}
-		}
-		return  null;
-	}
+	void register(User user);
 	
-	public void register(User user) {
-		userRepository.save(user);
-	}
+	User validateNewUser(User user);
 	
-	public User validateNewUser(User user) {
-		if(user.getUserName() == null || user.getPassword() == null) {
-			return null;
-		}
-		return user;
-	}
-
 }
