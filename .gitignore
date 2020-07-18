@@ -1,5 +1,19 @@
-.idea/
+HELP.md
 target/
-.iml
-.DS_Store
-src/main/resources/presentations/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iml
+
+mvnw
+mvnw.cmd
+.mvn/*
