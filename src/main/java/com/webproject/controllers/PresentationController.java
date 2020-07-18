@@ -33,6 +33,13 @@ public class PresentationController {
 		this.presentationService = presentationService;
 	}
 
+	/**	
+	* This method shows all presentations
+	* @param  model   a holder for attributes
+	* @param  page    a current page index
+	* @param  tag     all existing tags
+	* @return the page with all presentations
+	*/
 	@GetMapping
 	public String getAllPresentations(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "tag", required = false) String tag) {
@@ -42,6 +49,13 @@ public class PresentationController {
 		return "all-presentations";
 	}
 
+	/**	
+	* This method gets all user presentations
+	* @param  model   a holder for attributes
+	* @param  userID  the id of the user for whom you want to take the presentations
+	* @param  page    a current page index
+	* @return user profile
+	*/
 	@GetMapping(value = "/u/{userID}")
 	public String getPresentationsForUser(Model model, @PathVariable("userID") String userID,
 			@RequestParam(name = "page", defaultValue = "0") int page) {
@@ -49,28 +63,46 @@ public class PresentationController {
 		return "profile";
 	}
 
+	/**	
+	* This method gets a presentation by id
+	* @param  model   a holder for attributes
+	* @param  presentationID  the id of the presentation
+	* @return the presentation page
+	*/
 	@GetMapping("/p/{presentationID}")
 	public String getPresentationForId(@PathVariable Long presentationID, Model model) {
 		model.addAttribute("presentation", presentationService.getPresentationById(presentationID).get());
 		return "presentation";
-
 	}
 
+	/**	
+	* This method gets a slide from a presentation
+	* @param  slideID         the id of the slide 
+	* @param  presentationID  the id of the presentation
+	* @return the slide page
+	*/
 	@GetMapping("/p/{presentationID}/s/{slideID}")
 	public String getSlideForPresentation(@PathVariable("presentationID") Long presentationID,
 			@PathVariable(value = "slideID") Integer slideID) {
 		Presentation presentation = presentationService.getPresentationById(presentationID).get();
 		return "redirect:" + presentation.getSlides().get(slideID).getImageUrl();
-
 	}
 
+	/**	
+	* This method deletes a presentation
+	* @param  presentationID  the id of the presentation
+	* @param  model           a holder for attributes
+	* @return the presentations without the one that has been deleted
+	*/
 	@GetMapping("/delete/p/{presentationID}")
 	public String deletePresentationForId(@PathVariable Long presentationID, Model model) {
 		presentationService.deletePresentationForId(presentationID);
 		return getAllPresentations(model, 0, null);
-
 	}
 
+	/**	
+	* This method exports all presentation in a zip file with name "presentations.zip"
+	*/
 	@GetMapping(value = "/export")
 	@ResponseBody
 	public String export() {
@@ -84,6 +116,11 @@ public class PresentationController {
 		model.addAttribute("pageNumber", presentations.getNumber());
 	}
 
+	/**	
+	* This method uploads a presentation or a zip file with presentations.
+	* The file should be ".pptx" or ".ppt", if we want to upload one presentation and ".zip", if we want 
+	* to upload a lot of presentations
+	*/
 	@PostMapping("/upload")
 	public String handleFileUpload(Model model, @Valid PresentationForm form, BindingResult bindingResult,
 			HttpServletRequest request) {

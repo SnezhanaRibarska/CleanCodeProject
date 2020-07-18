@@ -57,7 +57,6 @@ public class PresentationServiceImpl implements PresentationService {
 	}
 
 	public Page<Presentation> findAllForUser(String userId, int pageIndex) {
-		// all for user id
 		return presentationRepository.findAll(PageRequest.of(pageIndex, RESULTS_PER_PAGE));
 	}
 
