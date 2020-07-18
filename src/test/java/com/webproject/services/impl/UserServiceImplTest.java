@@ -32,12 +32,11 @@ public class UserServiceImplTest {
 	@BeforeEach
 	public void setUp() {
 	    MockitoAnnotations.initMocks(this);
-	    usersFromRepository = new ArrayList<>();
+		userService = new UserServiceImpl(userRepo);
 	}
 	
 	@Test
 	public void testValidateUser() {
-		userService = new UserServiceImpl(userRepo);
 		usersFromRepository = new ArrayList<>();
 		usersFromRepository.add(testUser);
 		Mockito.when(userRepo.findAll()).thenReturn(usersFromRepository);
@@ -50,18 +49,23 @@ public class UserServiceImplTest {
 	
 	@Test
 	public void testValidateNewUserWithoutUsernameAndPassword() {
-		userService = new UserServiceImpl(userRepo);
 		User validatedUser = userService.validateNewUser(testUser);
 		assertNull(validatedUser);
 	}
 	
 	@Test
 	public void testValidateNewUser() {
-		userService = new UserServiceImpl(userRepo);
 		Mockito.when(testUser.getUserName()).thenReturn(USER_NAME);
 		Mockito.when(testUser.getPassword()).thenReturn(USER_PASSWORD);		
 		User validatedUser = userService.validateNewUser(testUser);
 		assertNotNull(validatedUser);
+	}
+	
+	@Test
+	public void testRegisterUser() {
+		Mockito.when(userRepo.save(testUser)).thenReturn(testUser);
+		userService.register(testUser);
+		Mockito.verify(userRepo).save(testUser);
 	}
 	
 }
