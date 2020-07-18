@@ -1,5 +1,6 @@
 HELP.md
 target/
+bin/
 
 ### STS ###
 .apt_generated
@@ -14,6 +15,10 @@ target/
 .idea
 *.iml
 
+### ECLIPSE ###
+.metadata
+
+### MVN FILES ###
 mvnw
 mvnw.cmd
 .mvn/*
