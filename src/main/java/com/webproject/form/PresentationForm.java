@@ -11,13 +11,13 @@ import javax.validation.constraints.Size;
 public class PresentationForm {
 
     @NotBlank
-    @Size(min=2, max=50, message = "Името трябва да бъде с дължина от 2 до 50 символа")
+    @Size(min=2, max=50, message = "The name should be 2 to 50 characters long")
     private String name;
 
-    @NotNull(message = "Трябва да качите файл")
+    @NotNull(message = "You should upload a file")
     private MultipartFile zipFile;
 
-    @NotBlank(message = "Презентациите трябва да имат поне един таг")
+    @NotBlank(message = "Presentations must have at least one tag")
     private String tags;
 
 }

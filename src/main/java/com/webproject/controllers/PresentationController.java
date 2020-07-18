@@ -130,7 +130,7 @@ public class PresentationController {
 				message.append(fe.getDefaultMessage() + " \n");
 			}
 			if (form.getZipFile().getName().isEmpty()) {
-				message.append("Невалиден файл\n");
+				message.append("Invalid file\n");
 			}
 			model.addAttribute("message", message.toString());
 
@@ -146,7 +146,7 @@ public class PresentationController {
 						(Long) request.getSession().getAttribute("userID"));
 			} catch (IOException e) {
 				model.addAttribute("message",
-						"Неуспешно качване на презентация; Сигурни ли сте, че презентацията е с разширение .pptx или .ppt ?");
+						"Failed to upload a presentation. Are you sure the presentation has an extension .pptx or .ppt ?");
 				e.printStackTrace();
 				return "upload";
 			}
@@ -156,11 +156,11 @@ public class PresentationController {
 				presentationService.createPresentations(destination, form, 1L);
 			} catch (IOException e) {
 				model.addAttribute("message",
-						"Неуспешно разахивиран файл; Сигурни ли сте, че сте покрили горните критерии?");
+						"Failed to unzip a file. Are you sure you have met the above criteria?");
 				e.printStackTrace();
 				return "upload";
 			} catch (StringIndexOutOfBoundsException | NumberFormatException e) {
-				model.addAttribute("message", "Грешна обработка на името на файла.");
+				model.addAttribute("message", "Incorrect file name processing.");
 				return "upload";
 			}
 		}
